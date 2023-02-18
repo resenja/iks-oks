@@ -1,0 +1,277 @@
+* {
+    box-sizing: border-box;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+:root {
+    --board-margin: 2vmin;
+    --size: 1vmin;
+    --border-color: #808080;
+    --big-border: var(--size) var(--border-color) solid;
+    --small-border: calc(var(--size) / 2) var(--border-color) solid;
+    --iks-color: #ff0000;
+    --oks-color: #00c8ff;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#board,
+.big-square {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.big-square {
+    width: calc(33vmin - var(--board-margin));
+    height: calc(33vmin - var(--board-margin));
+    align-items: center;
+    padding: var(--board-margin);
+    position: relative;
+}
+
+.big-square.top-border {
+    border-top: var(--big-border);
+}
+
+.big-square.bottom-border {
+    border-bottom: var(--big-border);
+}
+
+.big-square.left-border {
+    border-left: var(--big-border);
+}
+
+.big-square.right-border {
+    border-right: var(--big-border);
+}
+
+.big-square.active,
+.big-square.iks-turn,
+.big-square.oks-turn {
+    background-clip: content-box;
+}
+
+.big-square.iks-turn {
+    /*background-color: #fffecd;*/
+    background-color: #ffcdcd;
+}
+
+.big-square.oks-turn {
+    /*background-color: #fffecd;*/
+    background-color: #cdf1ff;
+}
+
+
+.small-square {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.small-square.top-border {
+    border-top: var(--small-border);
+}
+
+.small-square.bottom-border {
+    border-bottom: var(--small-border);
+}
+
+.small-square.left-border {
+    border-left: var(--small-border);
+}
+
+.small-square.right-border {
+    border-right: var(--small-border);
+}
+
+.iks:not(#board)::before,
+.iks:not(#board)::after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: calc(var(--size) / 2);
+    background-color: var(--iks-color);
+}
+
+#board .big-square.iks::before,
+#board .big-square.iks::after {
+    height: var(--size);
+}
+
+.iks::before {
+    transform: rotate(45deg);
+    z-index: 1;
+}
+
+.iks::after {
+    transform: rotate(-45deg);
+}
+
+.big-square.iks .small-square::before,
+.big-square.iks .small-square::after,
+.big-square.oks .small-square::before,
+.big-square.oks .small-square::after {
+    opacity: 0.25;
+}
+
+.big-square.oks::before {
+    position: absolute;
+    content: "";
+    left: 50%;
+    transform: translate(-50%);
+    width: calc(var(--size) * 22);
+    height: calc(var(--size) * 22);
+    background-color: transparent;
+    border-radius: 100%;
+    border: var(--size) solid #00c8ff;
+    z-index: 1;
+}
+
+.small-square.oks::before {
+    position: absolute;
+    content: "";
+    width: calc(var(--size) * 5.5);
+    height: calc(var(--size) * 5.5);
+    background-color: transparent;
+    border-radius: 100%;
+    border: calc(var(--size) / 1.5) solid #00c8ff;
+}
+
+
+.active .small-square:not(.iks, .oks):hover::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    padding-top: 90%;
+    border-radius: 25%;
+    background-color: var(--border-color);
+    opacity: 0.25;
+}
+
+#shape {
+    position: fixed;
+    width: 4vh;
+    height: 4vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%);
+    margin-bottom: 0.1vh;
+}
+
+#shape.iks::before,
+#shape.iks::after {
+    height: 0.5vh;
+}
+
+#shape.oks::before {
+    position: absolute;
+    content: "";
+    width: 2vh;
+    height: 2vh;
+    background-color: transparent;
+    border-radius: 100%;
+    border: 0.5vh var(--oks-color) solid;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+#create-game-div {
+    position: fixed;
+    display: flex;
+    gap: 1vmin;
+    height: 8vh;
+    max-height: 2rem;
+    bottom: var(--board-margin);
+}
+
+.input-error {
+    border: 1px #ff0000 solid;
+}
+
+#game-over-div {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 50%);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#game-over-menu {
+    width: 75vmin;
+    height: 75vmin;
+    background-color: #fff;
+    border-radius: 5%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5%;
+
+}
+
+#game-over-text {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    flex: 1;
+}
+
+#game-over-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    width: 100%;
+    gap: 5%;
+    flex: 1;
+}
+
+#go-back,
+#rematch {
+    display: inline-block;
+}
+
+.draw-text {
+    color: var(--border-color);
+}
+
+.iks-text {
+    color: var(--iks-color);
+
+}
+
+.oks-text {
+    color: var(--oks-color);
+}
+
+p {
+    margin: 0;
+}

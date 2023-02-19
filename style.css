@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
     -webkit-user-drag: none;
     user-select: none;
     -moz-user-select: none;
@@ -126,10 +127,7 @@ body {
     transform: rotate(-45deg);
 }
 
-.big-square.iks .small-square::before,
-.big-square.iks .small-square::after,
-.big-square.oks .small-square::before,
-.big-square.oks .small-square::after {
+.big-square.iks * , .big-square.oks *{
     opacity: 0.25;
 }
 
@@ -191,8 +189,8 @@ body {
 #shape.oks::before {
     position: absolute;
     content: "";
-    width: 2vh;
-    height: 2vh;
+    width: 2.5vh;
+    height: 2.5vh;
     background-color: transparent;
     border-radius: 100%;
     border: 0.5vh var(--oks-color) solid;
@@ -278,6 +276,10 @@ p {
     position: fixed;
     top: calc(var(--board-margin) / 2);
     left: var(--board-margin);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: calc(var(--board-margin) / 2);
 }
 
 @media screen and (orientation:landscape) {

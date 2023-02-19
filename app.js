@@ -57,7 +57,7 @@ async function init() {
           smallSquares[i].removeEventListener("click", clickHandler);
           resetSquares();
           shape = changeTurn(shape);
-          nextSquares(smallSquares[i], shape, true);
+          if(!board.classList.contains("iks") && !board.classList.contains("oks") && document.querySelectorAll(".big-square.iks , .big-square-oks").length !== 9) nextSquares(smallSquares[i], shape, true);
         }
       }
     });

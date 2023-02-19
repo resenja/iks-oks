@@ -204,8 +204,6 @@ body {
     position: fixed;
     display: flex;
     gap: 1vmin;
-    height: 8vh;
-    max-height: 2rem;
     bottom: var(--board-margin);
 }
 
@@ -274,4 +272,16 @@ body {
 
 p {
     margin: 0;
+}
+
+#gameURL{
+    position: fixed;
+    top: calc(var(--board-margin) / 2);
+    left: var(--board-margin);
+}
+
+@media screen and (orientation:landscape) {
+    body.offline{
+        justify-content: start;
+    }
 }

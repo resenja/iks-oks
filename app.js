@@ -8,20 +8,22 @@ async function init() {
       .eq('id', id)
     onUpdateAndReload(data[0], id);
     document.querySelector("#shape").classList.add(sessionStorage.getItem(id));
+    let gameURL= document.createElement("div");
+    gameURL.setAttribute("id","gameURL");
+    gameURL.innerHTML = `KOD: <input type="text" readonly="true" value="${id}" size="${id.length}" style="text-align:center;">`;
+    document.querySelector("body").append(gameURL);
   }
   else {
     let gameMenu = document.createElement("div");
     gameMenu.setAttribute("id", "create-game-div");
     gameMenu.innerHTML = `
-    <button id="join-game" style="width:33%;" onclick="joinGame();">pridruži se partiji</button>
+    <button id="join-game" style="width:33%;margin-left:var(--board-margin);" onclick="joinGame();">pridruži se partiji</button>
     <input  id="game-id" type="text" style="width:34%;">
-    <button id=" create-game" style="width:33%;" onclick="createGame();">napravi partiju</button>`;
+    <button id=" create-game" style="width:33%;margin-right:var(--board-margin);" onclick="createGame();">napravi partiju</button>`;
     document.querySelector("body").append(gameMenu);
-    /*document.querySelector("body").style.justifyContent = "start";*/
+    document.querySelector("body").classList.add("offline");
     let squares = document.querySelectorAll(".big-square");
     for (let i = 0; i < squares.length; i++) {
-      squares[i].style.width = "26.5vmin";
-      squares[i].style.height = "26.5vmin";
       squares[i].classList.add("iks-turn");
       squares[i].classList.add("active");
     }
@@ -252,6 +254,7 @@ async function joinGame() {
       url.searchParams.set("id", id);
       window.location.href = url;
     }
+    else document.querySelector("#game-id").classList.add("input-error");
   }
 }
 async function goBack() {

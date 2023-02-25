@@ -1,121 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Taktički iks oks</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>const client = supabase.createClient('https://qrpjxxnyavsvmdbypowt.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFycGp4eG55YXZzdm1kYnlwb3d0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzI1ODY5NjAsImV4cCI6MTk4ODE2Mjk2MH0.XAG8M4YLwVpGdA5H0qLa_SgFuUNuR9rldwe94DuPf3o');</script>
-</head>
+    <script>
+      const client = supabase.createClient(
+        "https://qrpjxxnyavsvmdbypowt.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFycGp4eG55YXZzdm1kYnlwb3d0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzI1ODY5NjAsImV4cCI6MTk4ODE2Mjk2MH0.XAG8M4YLwVpGdA5H0qLa_SgFuUNuR9rldwe94DuPf3o"
+      );
+    </script>
+  </head>
 
-<body>
+  <body>
     <div id="board">
-        <div class="big-square right-border bottom-border top-left">
-            <div class="small-square right-border bottom-border top-left"></div>
-            <div class="small-square bottom-border top-middle"></div>
-            <div class="small-square left-border bottom-border top-right"></div>
-            <div class="small-square right-border middle-left"></div>
-            <div class="small-square middle"></div>
-            <div class="small-square left-border middle-right"></div>
-            <div class="small-square top-border right-border bottom-left"></div>
-            <div class="small-square top-border bottom-middle"></div>
-            <div class="small-square top-border left-border bottom-right"></div>
-        </div>
-        <div class="big-square bottom-border top-middle">
-            <div class="small-square right-border bottom-border top-left"></div>
-            <div class="small-square bottom-border top-middle"></div>
-            <div class="small-square left-border bottom-border top-right"></div>
-            <div class="small-square right-border middle-left"></div>
-            <div class="small-square middle"></div>
-            <div class="small-square left-border middle-right"></div>
-            <div class="small-square top-border right-border bottom-left"></div>
-            <div class="small-square top-border bottom-middle"></div>
-            <div class="small-square top-border left-border bottom-right"></div>
-        </div>
-        <div class="big-square left-border bottom-border top-right">
-            <div class="small-square right-border bottom-border top-left"></div>
-            <div class="small-square bottom-border top-middle"></div>
-            <div class="small-square left-border bottom-border top-right"></div>
-            <div class="small-square right-border middle-left"></div>
-            <div class="small-square middle"></div>
-            <div class="small-square left-border middle-right"></div>
-            <div class="small-square top-border right-border bottom-left"></div>
-            <div class="small-square top-border bottom-middle"></div>
-            <div class="small-square top-border left-border bottom-right"></div>
-        </div>
-        <div class="big-square right-border middle-left">
-            <div class="small-square right-border bottom-border top-left"></div>
-            <div class="small-square bottom-border top-middle"></div>
-            <div class="small-square left-border bottom-border top-right"></div>
-            <div class="small-square right-border middle-left"></div>
-            <div class="small-square middle"></div>
-            <div class="small-square left-border middle-right"></div>
-            <div class="small-square top-border right-border bottom-left"></div>
-            <div class="small-square top-border bottom-middle"></div>
-            <div class="small-square top-border left-border bottom-right"></div>
-        </div>
-        <div class="big-square middle">
-            <div class="small-square right-border bottom-border top-left"></div>
-            <div class="small-square bottom-border top-middle"></div>
-            <div class="small-square left-border bottom-border top-right"></div>
-            <div class="small-square right-border middle-left"></div>
-            <div class="small-square middle"></div>
-            <div class="small-square left-border middle-right"></div>
-            <div class="small-square top-border right-border bottom-left"></div>
-            <div class="small-square top-border bottom-middle"></div>
-            <div class="small-square top-border left-border bottom-right"></div>
-        </div>
-        <div class="big-square left-border middle-right">
-            <div class="small-square right-border bottom-border top-left"></div>
-            <div class="small-square bottom-border top-middle"></div>
-            <div class="small-square left-border bottom-border top-right"></div>
-            <div class="small-square right-border middle-left"></div>
-            <div class="small-square middle"></div>
-            <div class="small-square left-border middle-right"></div>
-            <div class="small-square top-border right-border bottom-left"></div>
-            <div class="small-square top-border bottom-middle"></div>
-            <div class="small-square top-border left-border bottom-right"></div>
-        </div>
-        <div class="big-square top-border right-border bottom-left">
-            <div class="small-square right-border bottom-border top-left"></div>
-            <div class="small-square bottom-border top-middle"></div>
-            <div class="small-square left-border bottom-border top-right"></div>
-            <div class="small-square right-border middle-left"></div>
-            <div class="small-square middle"></div>
-            <div class="small-square left-border middle-right"></div>
-            <div class="small-square top-border right-border bottom-left"></div>
-            <div class="small-square top-border bottom-middle"></div>
-            <div class="small-square top-border left-border bottom-right"></div>
-        </div>
-        <div class="big-square top-border bottom-middle">
-            <div class="small-square right-border bottom-border top-left"></div>
-            <div class="small-square bottom-border top-middle"></div>
-            <div class="small-square left-border bottom-border top-right"></div>
-            <div class="small-square right-border middle-left"></div>
-            <div class="small-square middle"></div>
-            <div class="small-square left-border middle-right"></div>
-            <div class="small-square top-border right-border bottom-left"></div>
-            <div class="small-square top-border bottom-middle"></div>
-            <div class="small-square top-border left-border bottom-right"></div>
-        </div>
-        <div class="big-square top-border left-border bottom-right">
-            <div class="small-square right-border bottom-border top-left"></div>
-            <div class="small-square bottom-border top-middle"></div>
-            <div class="small-square left-border bottom-border top-right"></div>
-            <div class="small-square right-border middle-left"></div>
-            <div class="small-square middle"></div>
-            <div class="small-square left-border middle-right"></div>
-            <div class="small-square top-border right-border bottom-left"></div>
-            <div class="small-square top-border bottom-middle"></div>
-            <div class="small-square top-border left-border bottom-right"></div>
-        </div>
+      <div class="big-square top-left">
+        <div class="small-square top-left"></div>
+        <div class="small-square top-middle"></div>
+        <div class="small-square top-right"></div>
+        <div class="small-square middle-left"></div>
+        <div class="small-square middle"></div>
+        <div class="small-square middle-right"></div>
+        <div class="small-square bottom-left"></div>
+        <div class="small-square bottom-middle"></div>
+        <div class="small-square bottom-right"></div>
+      </div>
+      <div class="big-square top-middle">
+        <div class="small-square top-left"></div>
+        <div class="small-square top-middle"></div>
+        <div class="small-square top-right"></div>
+        <div class="small-square middle-left"></div>
+        <div class="small-square middle"></div>
+        <div class="small-square middle-right"></div>
+        <div class="small-square bottom-left"></div>
+        <div class="small-square bottom-middle"></div>
+        <div class="small-square bottom-right"></div>
+      </div>
+      <div class="big-square top-right">
+        <div class="small-square top-left"></div>
+        <div class="small-square top-middle"></div>
+        <div class="small-square top-right"></div>
+        <div class="small-square middle-left"></div>
+        <div class="small-square middle"></div>
+        <div class="small-square middle-right"></div>
+        <div class="small-square bottom-left"></div>
+        <div class="small-square bottom-middle"></div>
+        <div class="small-square bottom-right"></div>
+      </div>
+      <div class="big-square middle-left">
+        <div class="small-square top-left"></div>
+        <div class="small-square top-middle"></div>
+        <div class="small-square top-right"></div>
+        <div class="small-square middle-left"></div>
+        <div class="small-square middle"></div>
+        <div class="small-square middle-right"></div>
+        <div class="small-square bottom-left"></div>
+        <div class="small-square bottom-middle"></div>
+        <div class="small-square bottom-right"></div>
+      </div>
+      <div class="big-square middle">
+        <div class="small-square top-left"></div>
+        <div class="small-square top-middle"></div>
+        <div class="small-square top-right"></div>
+        <div class="small-square middle-left"></div>
+        <div class="small-square middle"></div>
+        <div class="small-square middle-right"></div>
+        <div class="small-square bottom-left"></div>
+        <div class="small-square bottom-middle"></div>
+        <div class="small-square bottom-right"></div>
+      </div>
+      <div class="big-square middle-right">
+        <div class="small-square top-left"></div>
+        <div class="small-square top-middle"></div>
+        <div class="small-square top-right"></div>
+        <div class="small-square middle-left"></div>
+        <div class="small-square middle"></div>
+        <div class="small-square middle-right"></div>
+        <div class="small-square bottom-left"></div>
+        <div class="small-square bottom-middle"></div>
+        <div class="small-square bottom-right"></div>
+      </div>
+      <div class="big-square bottom-left">
+        <div class="small-square top-left"></div>
+        <div class="small-square top-middle"></div>
+        <div class="small-square top-right"></div>
+        <div class="small-square middle-left"></div>
+        <div class="small-square middle"></div>
+        <div class="small-square middle-right"></div>
+        <div class="small-square bottom-left"></div>
+        <div class="small-square bottom-middle"></div>
+        <div class="small-square bottom-right"></div>
+      </div>
+      <div class="big-square bottom-middle">
+        <div class="small-square top-left"></div>
+        <div class="small-square top-middle"></div>
+        <div class="small-square top-right"></div>
+        <div class="small-square middle-left"></div>
+        <div class="small-square middle"></div>
+        <div class="small-square middle-right"></div>
+        <div class="small-square bottom-left"></div>
+        <div class="small-square bottom-middle"></div>
+        <div class="small-square bottom-right"></div>
+      </div>
+      <div class="big-square bottom-right">
+        <div class="small-square top-left"></div>
+        <div class="small-square top-middle"></div>
+        <div class="small-square top-right"></div>
+        <div class="small-square middle-left"></div>
+        <div class="small-square middle"></div>
+        <div class="small-square middle-right"></div>
+        <div class="small-square bottom-left"></div>
+        <div class="small-square bottom-middle"></div>
+        <div class="small-square bottom-right"></div>
+      </div>
     </div>
     <div id="shape"></div>
-    <span style="position:fixed;bottom:0;right:0;font-size:var(--board-margin);">Veljkova ideja</span>
+    <span
+      style="
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        font-size: var(--board-margin);
+      "
+      >Veljkova ideja</span
+    >
     <script src="app.js"></script>
-</body>
-
+  </body>
 </html>

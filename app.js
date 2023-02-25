@@ -33,6 +33,13 @@ async function init() {
       },
       "Dozvojleni su samo brojevi"
     );
+    document
+      .querySelector("#game-id")
+      .addEventListener("keypress", function (event) {
+        if (event.key < "0" || event.key > "9") {
+          event.preventDefault();
+        }
+      });
   }
   let smallSquares = document.querySelectorAll(".small-square");
   for (let i = 0; i < smallSquares.length; i++)

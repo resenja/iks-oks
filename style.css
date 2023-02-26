@@ -2,10 +2,10 @@
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
     -webkit-user-drag: none;
-    user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    user-select: none;
 }
 
 :root {
@@ -112,8 +112,11 @@ div.iks.iks:not(#board)::after{
     border: var(--size) solid var(--oks-color);
     z-index: 1;
 }
-.big-square.iks > .small-square::before, .big-square.iks > .small-square::after , .big-square.oks > .small-square::before , .big-square.oks > .small-square::after {
-    opacity: 0.25;
+#board > .big-square.iks > .small-square.iks::before, #board .big-square.iks > .small-square.iks::after , #board .big-square.oks > .small-square.iks::before , #board .big-square.oks > .small-square.iks::after {
+    background-color: #ffcccc;
+}
+#board > .big-square.iks > .small-square.oks::before, #board .big-square.oks > .small-square.oks::before {
+    border-color: #c0f1ff;
 }
 .big-square.iks , .big-square.oks{
     background-image: linear-gradient(#80808040, #80808040), linear-gradient(var(--neutral-color), var(--neutral-color));
@@ -232,15 +235,6 @@ p {
     justify-content: center;
     align-items: center;
     gap: calc(var(--board-margin) / 2);
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-input[type=number] {
-  appearance: textfield;
 }
 
 @media screen and (orientation:landscape) {

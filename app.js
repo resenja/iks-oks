@@ -2,11 +2,8 @@ async function init() {
   let shape = "iks";
   let id = new URLSearchParams(window.location.search).get("id");
   if (id) {
-    const { data, error } = await client
-      .from("tactical_iks_oks")
-      .select("*")
-      .eq("id", id);
-    onUpdateAndReload(data[0], id);
+    const { data, error } = await client.from("tactical_iks_oks").select("*").eq("id", id).limit(1).single();
+    onUpdateAndReload(data, id);
     document.querySelector("#shape").classList.add(sessionStorage.getItem(id));
     let gameURL = document.createElement("div");
     gameURL.setAttribute("id", "gameURL");
@@ -16,9 +13,9 @@ async function init() {
     let gameMenu = document.createElement("div");
     gameMenu.setAttribute("id", "create-game-div");
     gameMenu.innerHTML = `
-    <button id="join-game" style="width:33%;margin-left:var(--board-margin);" onclick="joinGame();">pridruži se partiji</button>
-    <input  id="game-id" type="number" style="width:34%;">
-    <button id=" create-game" style="width:33%;margin-right:var(--board-margin);" onclick="createGame();">napravi partiju</button>`;
+    <button type="button" id="join-game" style="width:33%;margin-left:var(--board-margin);" onclick="joinGame();">pridruži se partiji</button>
+    <input  id="game-id" type="number" min="0"placeholder="KOD partije" style="width:34%;">
+    <button type="button" id=" create-game" style="width:33%;margin-right:var(--board-margin);" onclick="createGame();">napravi partiju</button>`;
     document.querySelector("body").append(gameMenu);
     document.querySelector("body").classList.add("offline");
     let squares = document.querySelectorAll(".big-square");
@@ -26,20 +23,18 @@ async function init() {
       squares[i].classList.add("iks-turn");
       squares[i].classList.add("active");
     }
-    setInputFilter(
+    /*setInputFilter(
       document.querySelector("#game-id"),
       function (value) {
         return /^\d*$/.test(value);
       },
       "Dozvojleni su samo brojevi"
-    );
-    document
-      .querySelector("#game-id")
-      .addEventListener("keypress", function (event) {
-        if (event.key < "0" || event.key > "9") {
-          event.preventDefault();
-        }
-      });
+    );*/
+    document.querySelector("#game-id").addEventListener("keypress", function (event) {
+      if (event.key < "0" || event.key > "9") {
+        event.preventDefault();
+      }
+    });
   }
   let smallSquares = document.querySelectorAll(".small-square");
   for (let i = 0; i < smallSquares.length; i++)
@@ -57,11 +52,8 @@ async function init() {
           resetSquares();
           let turn = changeTurn(sessionStorage.getItem(id));
           nextSquares(smallSquares[i], turn, false);
-          let position = getPosition(
-            document.querySelectorAll(".small-square")
-          );
-          position +=
-            " " + getPosition(document.querySelectorAll(".big-square"));
+          let position = getPosition(document.querySelectorAll(".small-square"));
+          position += " " + getPosition(document.querySelectorAll(".big-square"));
           const { error } = await client
             .from("tactical_iks_oks")
             .update({ position: position, turn: turn })
@@ -76,8 +68,7 @@ async function init() {
           if (
             !board.classList.contains("iks") &&
             !board.classList.contains("oks") &&
-            document.querySelectorAll(".big-square.iks , .big-square-oks")
-              .length !== 9
+            document.querySelectorAll(".big-square.iks , .big-square-oks").length !== 9
           )
             nextSquares(smallSquares[i], shape, true);
         }
@@ -88,23 +79,12 @@ init();
 async function onUpdateAndReload(data) {
   if (!sessionStorage.getItem(data.id) && data.empty_shape != "") {
     sessionStorage.setItem(data.id, data.empty_shape);
-    const { error } = await client
-      .from("tactical_iks_oks")
-      .update({ empty_shape: "" })
-      .eq("id", data.id);
+    const { error } = await client.from("tactical_iks_oks").update({ empty_shape: "" }).eq("id", data.id);
   }
-  setPosition(
-    data.position.split(" ")[0],
-    document.querySelectorAll(".small-square")
-  );
-  setPosition(
-    data.position.split(" ")[1],
-    document.querySelectorAll(".big-square")
-  );
+  setPosition(data.position.split(" ")[0], document.querySelectorAll(".small-square"));
+  setPosition(data.position.split(" ")[1], document.querySelectorAll(".big-square"));
   if (data.turn === sessionStorage.getItem(data.id)) {
-    let squares = document.querySelectorAll(
-      ".big-square." + data.turn + "-turn"
-    );
+    let squares = document.querySelectorAll(".big-square." + data.turn + "-turn");
     for (let i = 0; i < squares.length; i++) {
       squares[i].classList.add("active");
     }
@@ -117,8 +97,7 @@ async function onUpdateAndReload(data) {
     sessionStorage.getItem(data.id) !== "" &&
     (board.classList.contains("iks") ||
       board.classList.contains("oks") ||
-      document.querySelectorAll(".big-square.iks , .big-square-oks").length ===
-        9)
+      document.querySelectorAll(".big-square.iks , .big-square-oks").length === 9)
   ) {
     let gameOverScreen = document.createElement("div");
     gameOverScreen.setAttribute("id", "game-over-div");
@@ -126,26 +105,17 @@ async function onUpdateAndReload(data) {
     <div id="game-over-menu">
       <div id="game-over-text"></div>
       <div id="game-over-buttons">
-        <button id="go-back" onclick="goBack();">nazad</button>
-        <button id="rematch" onclick="rematch();">revanš</button>
+        <button type="button" id="go-back" onclick="goBack();">nazad</button>
+        <button type="button" id="rematch" onclick="rematch();">revanš</button>
       </div>
     </div>`;
     document.querySelector("body").append(gameOverScreen);
-    if (
-      document.querySelectorAll(".big-square.iks , .big-square-oks").length ===
-      9
-    )
-      document.querySelector(
-        "#game-over-text"
-      ).innerHTML = `<p class="draw-text">NEREŠENO</p>`;
+    if (document.querySelectorAll(".big-square.iks , .big-square-oks").length === 9)
+      document.querySelector("#game-over-text").innerHTML = `<p class="draw-text">NEREŠENO</p>`;
     else if (board.classList.contains("iks"))
-      document.querySelector(
-        "#game-over-text"
-      ).innerHTML = `<p class="iks-text">POBEDIO JE IKS</p>`;
+      document.querySelector("#game-over-text").innerHTML = `<p class="iks-text">POBEDIO JE IKS</p>`;
     else if (board.classList.contains("oks"))
-      document.querySelector(
-        "#game-over-text"
-      ).innerHTML = `<p class="oks-text">POBEDIO JE OKS</p>`;
+      document.querySelector("#game-over-text").innerHTML = `<p class="oks-text">POBEDIO JE OKS</p>`;
   }
 }
 function resetSquares() {
@@ -169,17 +139,9 @@ function fillSquare(square) {
   sameShape(squares[6], squares[4], squares[2], square.parentElement);
 }
 function sameShape(square1, square2, square3, parent) {
-  if (
-    square1.classList.contains("iks") &&
-    square2.classList.contains("iks") &&
-    square3.classList.contains("iks")
-  )
+  if (square1.classList.contains("iks") && square2.classList.contains("iks") && square3.classList.contains("iks"))
     parent.classList.add("iks");
-  if (
-    square1.classList.contains("oks") &&
-    square2.classList.contains("oks") &&
-    square3.classList.contains("oks")
-  )
+  if (square1.classList.contains("oks") && square2.classList.contains("oks") && square3.classList.contains("oks"))
     parent.classList.add("oks");
 }
 function changeTurn(turn) {
@@ -187,36 +149,25 @@ function changeTurn(turn) {
 }
 function nextSquares(smallSquare, turn, activate) {
   let bigSquare;
-  if (smallSquare.classList.contains("top-left"))
-    bigSquare = document.querySelector(".big-square.top-left");
-  else if (smallSquare.classList.contains("top-middle"))
-    bigSquare = document.querySelector(".big-square.top-middle");
-  else if (smallSquare.classList.contains("top-right"))
-    bigSquare = document.querySelector(".big-square.top-right");
-  else if (smallSquare.classList.contains("middle-left"))
-    bigSquare = document.querySelector(".big-square.middle-left");
-  else if (smallSquare.classList.contains("middle"))
-    bigSquare = document.querySelector(".big-square.middle");
+  if (smallSquare.classList.contains("top-left")) bigSquare = document.querySelector(".big-square.top-left");
+  else if (smallSquare.classList.contains("top-middle")) bigSquare = document.querySelector(".big-square.top-middle");
+  else if (smallSquare.classList.contains("top-right")) bigSquare = document.querySelector(".big-square.top-right");
+  else if (smallSquare.classList.contains("middle-left")) bigSquare = document.querySelector(".big-square.middle-left");
+  else if (smallSquare.classList.contains("middle")) bigSquare = document.querySelector(".big-square.middle");
   else if (smallSquare.classList.contains("middle-right"))
     bigSquare = document.querySelector(".big-square.middle-right");
-  else if (smallSquare.classList.contains("bottom-left"))
-    bigSquare = document.querySelector(".big-square.bottom-left");
+  else if (smallSquare.classList.contains("bottom-left")) bigSquare = document.querySelector(".big-square.bottom-left");
   else if (smallSquare.classList.contains("bottom-middle"))
     bigSquare = document.querySelector(".big-square.bottom-middle");
   else bigSquare = document.querySelector(".big-square.bottom-right");
-  if (
-    bigSquare.classList.contains("iks") ||
-    bigSquare.classList.contains("oks") ||
-    isSmallSquaresDraw(bigSquare)
-  )
+  if (bigSquare.classList.contains("iks") || bigSquare.classList.contains("oks") || isSmallSquaresDraw(bigSquare))
     selectAllEmptySquares(turn, activate);
   else selectSquare(bigSquare, turn, activate);
 }
 function selectAllEmptySquares(turn, activate) {
   let bigSquares = document.querySelectorAll(".big-square:not(.iks , .oks)");
   for (let i = 0; i < bigSquares.length; i++)
-    if (!isSmallSquaresDraw(bigSquares[i]))
-      selectSquare(bigSquares[i], turn, activate);
+    if (!isSmallSquaresDraw(bigSquares[i])) selectSquare(bigSquares[i], turn, activate);
 }
 function selectSquare(square, turn, activate) {
   square.classList.add(turn + "-turn");
@@ -225,11 +176,7 @@ function selectSquare(square, turn, activate) {
 function isSmallSquaresDraw(bigSquare) {
   let smallSquares = bigSquare.children;
   for (let i = 0; i < smallSquares.length; i++) {
-    if (
-      !smallSquares[i].classList.contains("iks") &&
-      !smallSquares[i].classList.contains("oks")
-    )
-      return false;
+    if (!smallSquares[i].classList.contains("iks") && !smallSquares[i].classList.contains("oks")) return false;
   }
   return true;
 }
@@ -254,17 +201,9 @@ function setPosition(position, squares) {
   }
 }
 function setInputFilter(textbox, inputFilter, errMsg) {
-  [
-    "input",
-    "keydown",
-    "keyup",
-    "mousedown",
-    "mouseup",
-    "select",
-    "contextmenu",
-    "drop",
-    "focusout",
-  ].forEach(function (event) {
+  ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop", "focusout"].forEach(function (
+    event
+  ) {
     textbox.addEventListener(event, function (e) {
       if (inputFilter(this.value)) {
         if (["keydown", "mousedown", "focusout"].indexOf(e.type) >= 0) {
@@ -290,18 +229,21 @@ function setInputFilter(textbox, inputFilter, errMsg) {
 
 async function createGame() {
   let startShape = "oks";
-  if (Boolean(Math.round(Math.random()))) startShape = "iks";
+  if (Math.random() < 0.5) startShape = "iks";
   let id = document.querySelector("#game-id").value;
   if (id !== "") {
     try {
       const { data, error } = await client
         .from("tactical_iks_oks")
         .insert([{ id: parseInt(id), empty_shape: changeTurn(startShape) }])
-        .select();
+        .select()
+        .limit(1)
+        .single();
 
-      loadNewGame(data[0], startShape);
+      loadNewGame(data, startShape);
     } catch {
       document.querySelector("#game-id").classList.add("input-error");
+      alert("partija sa tim kodom već postoji");
     }
   } else {
     const { data, error } = await client
@@ -323,12 +265,16 @@ async function joinGame() {
     const { count, error } = await client
       .from("tactical_iks_oks")
       .select("id", { count: "exact", head: true })
-      .eq("id", parseInt(id));
+      .eq("id", parseInt(id))
+      .limit(1);
     if (count > 0) {
       let url = new URL(window.location.href);
       url.searchParams.set("id", id);
       window.location.href = url;
-    } else document.querySelector("#game-id").classList.add("input-error");
+    } else {
+      document.querySelector("#game-id").classList.add("input-error");
+      alert("ne postoji partija sa tim kodom");
+    }
   }
 }
 async function goBack() {
@@ -344,22 +290,16 @@ async function rematch() {
   fillSquare(document.querySelector(".big-square"));
   let board = document.querySelector("#board");
   if (
-    sessionStorage.getItem(
-      new URLSearchParams(window.location.search).get("id")
-    ) &&
-    sessionStorage.getItem(
-      new URLSearchParams(window.location.search).get("id")
-    ) !== "" &&
+    sessionStorage.getItem(new URLSearchParams(window.location.search).get("id")) &&
+    sessionStorage.getItem(new URLSearchParams(window.location.search).get("id")) !== "" &&
     (board.classList.contains("iks") ||
       board.classList.contains("oks") ||
-      document.querySelectorAll(".big-square.iks , .big-square-oks").length ===
-        9)
+      document.querySelectorAll(".big-square.iks , .big-square-oks").length === 9)
   ) {
     const { error } = await client
       .from("tactical_iks_oks")
       .update({
-        position:
-          "000000000000000000000000000000000000000000000000000000000000000000000000000000000 333333333",
+        position: "000000000000000000000000000000000000000000000000000000000000000000000000000000000 333333333",
         turn: "iks",
         created_at: new Date().toISOString(),
       })
@@ -368,11 +308,7 @@ async function rematch() {
   document.querySelector("#game-over-div").remove();
   sessionStorage.setItem(
     new URLSearchParams(window.location.search).get("id"),
-    changeTurn(
-      sessionStorage.getItem(
-        new URLSearchParams(window.location.search).get("id")
-      )
-    )
+    changeTurn(sessionStorage.getItem(new URLSearchParams(window.location.search).get("id")))
   );
   window.location.href = window.location.href;
 }

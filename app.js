@@ -7,8 +7,11 @@ async function init() {
     document.querySelector("#shape").classList.add(sessionStorage.getItem(id));
     let gameURL = document.createElement("div");
     gameURL.setAttribute("id", "gameURL");
-    gameURL.innerHTML = `KOD: <input type="text" readonly="true" value="${id}" size="${id.length}" style="text-align:center;">`;
+    gameURL.innerHTML = `<img src="qr-code.svg" onclick="shareQR();">KOD: <input type="text" readonly="true" value="${id}" size="${id.length}" style="text-align:center;">`;
     document.querySelector("body").append(gameURL);
+    let script = document.createElement("script");
+    script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js");
+    document.querySelector("head").append(script);
   } else {
     let gameMenu = document.createElement("div");
     gameMenu.setAttribute("id", "create-game-div");
@@ -311,6 +314,15 @@ async function rematch() {
     changeTurn(sessionStorage.getItem(new URLSearchParams(window.location.search).get("id")))
   );
   window.location.href = window.location.href;
+}
+function shareQR() {
+  let qrDiv = document.createElement("div");
+  qrDiv.setAttribute("id", "qr-code");
+  document.querySelector("body").append(qrDiv);
+  document.querySelector("#qr-code").addEventListener("click", function () {
+    this.remove();
+  });
+  new QRCode(document.querySelector("#qr-code"), window.location.href);
 }
 const channel = client
   .channel("value-db-changes")

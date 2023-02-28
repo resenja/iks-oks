@@ -16,7 +16,7 @@ async function init() {
     let gameMenu = document.createElement("div");
     gameMenu.setAttribute("id", "create-game-div");
     gameMenu.innerHTML = `
-    <button type="button" id="join-game" style="width:33%;margin-left:var(--board-margin);" onclick="joinGame();">pridruži se partiji</button>
+    <button type="button" id="join-game" style="width:33%;margin-left:var(--board-margin);" onclick="joinGame();">uđi se partiji</button>
     <input  id="game-id" type="number" min="0"placeholder="KOD partije" style="width:34%;">
     <button type="button" id=" create-game" style="width:33%;margin-right:var(--board-margin);" onclick="createGame();">napravi partiju</button>`;
     document.querySelector("body").append(gameMenu);

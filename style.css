@@ -38,10 +38,13 @@ body {
 }
 #board{
     position:absolute;
-    width: 90vmin;
-    height: 90vmin;
     grid-gap: 1%;
     background-color: var(--border-color);
+    width: min(90vw, 90vh); /*backwards support*/
+    width: min(90svw, 90svh);
+    height: min(90vw, 90vh);
+    height: min(90svw, 90svh);
+    aspect-ratio: 1;
 }
 .big-square {
     width: 100%;
@@ -246,8 +249,16 @@ p {
     align-items: center;
 }
 @media screen and (orientation:landscape) {
+    #board{
+        max-height: 90%;
+    }
     body.offline #board{
-        width:clamp(1rem,90vmin,100vh - 4.1rem);
-        height: clamp(1rem,90vmin,100vh - 4.1rem);
+        max-height: unset;
+        height: clamp(1rem,90%,100% - 4.1rem);
+    }
+}
+@media screen and (orientation:portrait) {
+    #board{
+        max-width: 90%;
     }
 }

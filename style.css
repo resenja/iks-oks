@@ -1,264 +1,280 @@
 * {
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-    -webkit-user-drag: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  -webkit-user-drag: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 :root {
-    --board-margin: 2vmin;
-    --size: 1vmin;
-    --border-color: #808080;
-    --iks-color: #ff0000;
-    --oks-color: #00c8ff;
-    --neutral-color: #ffffff;
+  --board-margin: 2vmin;
+  --size: 1vmin;
+  --border-color: #808080;
+  --iks-color: #ff0000;
+  --oks-color: #00c8ff;
+  --neutral-color: #ffffff;
 }
 
 html {
-    height: 100%;
+  height: 100%;
 }
 
 body {
-    min-height: 100%;
-    margin: 0;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+  min-height: 100%;
+  margin: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 #board,
 .big-square {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }
-#board{
-    position:absolute;
-    grid-gap: 1%;
-    background-color: var(--border-color);
-    width: min(90vw, 90vh); /*backwards support*/
-    width: min(90svw, 90svh);
-    height: min(90vw, 90vh);
-    height: min(90svw, 90svh);
-    aspect-ratio: 1;
+#board {
+  position: absolute;
+  grid-gap: 1%;
+  background-color: var(--border-color);
+  width: 90vmin;
+  height: 90vmin;
+  aspect-ratio: 1;
 }
 .big-square {
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    padding: var(--board-margin);
-    position: relative;
-    grid-gap: 2%;
-    background-image: linear-gradient(var(--border-color), var(--border-color)), linear-gradient(var(--neutral-color), var(--neutral-color));
-    background-clip: content-box, padding-box;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  padding: var(--board-margin);
+  position: relative;
+  grid-gap: 2%;
+  background-image: linear-gradient(var(--border-color), var(--border-color)),
+    linear-gradient(var(--neutral-color), var(--neutral-color));
+  background-clip: content-box, padding-box;
 }
 
 .big-square.iks-turn .small-square {
-    /*background-color: #fffecd;*/
-    background-color: #ffcdcd;
+  /*background-color: #fffecd;*/
+  background-color: #ffcdcd;
 }
 
 .big-square.oks-turn .small-square {
-    /*background-color: #fffecd;*/
-    background-color: #cdf1ff;
+  /*background-color: #fffecd;*/
+  background-color: #cdf1ff;
 }
-
 
 .small-square {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-color: var(--neutral-color);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: var(--neutral-color);
 }
-.border{
-    position:absolute;
-    background-color: var(--border-color);
+.border {
+  position: absolute;
+  background-color: var(--border-color);
 }
 .iks:not(#board)::before,
 .iks:not(#board)::after {
-    position: absolute;
-    content: "";
-    width: 100%;
-    height: calc(var(--size) / 2);
-    background-color: var(--iks-color);
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%) rotate(45deg);
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: calc(var(--size) / 2);
+  background-color: var(--iks-color);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
 }
-div.iks.iks:not(#board)::after{
-    transform: translate(-50%,-50%) rotate(-45deg);
+div.iks.iks:not(#board)::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 #board .big-square.iks::before,
 #board .big-square.iks::after {
-    height: var(--size);
-    z-index: 1;
+  height: var(--size);
+  z-index: 1;
 }
 .oks::before {
-    position: absolute;
-    content: "";
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    width: 70%;
-    padding-top: 70%;
-    background-color: transparent;
-    border-radius: 100%;
-    border: calc(var(--size) / 1.5) solid var(--oks-color);
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  padding-top: 70%;
+  background-color: transparent;
+  border-radius: 100%;
+  border: calc(var(--size) / 1.5) solid var(--oks-color);
 }
 
 .big-square.oks::before {
-    border: var(--size) solid var(--oks-color);
-    z-index: 1;
+  border: var(--size) solid var(--oks-color);
+  z-index: 1;
 }
-#board > .big-square.iks > .small-square.iks::before, #board .big-square.iks > .small-square.iks::after , #board .big-square.oks > .small-square.iks::before , #board .big-square.oks > .small-square.iks::after {
-    background-color: #ffcccc;
+#board > .big-square.iks > .small-square.iks::before,
+#board .big-square.iks > .small-square.iks::after,
+#board .big-square.oks > .small-square.iks::before,
+#board .big-square.oks > .small-square.iks::after {
+  background-color: #ffcccc;
 }
-#board > .big-square.iks > .small-square.oks::before, #board .big-square.oks > .small-square.oks::before {
-    border-color: #c0f1ff;
+#board > .big-square.iks > .small-square.oks::before,
+#board .big-square.oks > .small-square.oks::before {
+  border-color: #c0f1ff;
 }
-.big-square.iks , .big-square.oks{
-    background-image: linear-gradient(#80808040, #80808040), linear-gradient(var(--neutral-color), var(--neutral-color));
+.big-square.iks,
+.big-square.oks {
+  background-image: linear-gradient(#80808040, #80808040), linear-gradient(var(--neutral-color), var(--neutral-color));
 }
+
 #shape {
-    position: fixed;
-    width: 4vh;
-    height: 4vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%);
-    margin-bottom: 0.1vh;
+  position: fixed;
+  width: 4vh;
+  height: 4vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%);
+  margin-bottom: 0.1vh;
 }
 
 #shape.iks::before,
 #shape.iks::after {
-    height: 0.5vh;
+  height: 0.5vh;
 }
 
 #shape.oks::before {
-    border: 0.5vh var(--oks-color) solid;
+  border: 0.5vh var(--oks-color) solid;
 }
 
 .active .small-square:not(.iks, .oks):hover::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: var(--border-color);
-    opacity: 0.25;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--border-color);
+  opacity: 0.25;
 }
 
 #create-game-div {
-    position: fixed;
-    display: flex;
-    gap: 1vmin;
-    height: 1.5rem;
-    bottom: 0.5rem;
+  position: fixed;
+  display: flex;
+  gap: 1vmin;
+  height: 1.5rem;
+  bottom: 0.5rem;
 }
 
 .input-error {
-    border: 1px #ff0000 solid;
+  border: 1px #ff0000 solid;
 }
 
 #game-over-div {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 50%);
-    z-index: 10;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 50%);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #game-over-menu {
-    width: 75vmin;
-    height: 75vmin;
-    background-color: #fff;
-    border-radius: 5%;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 5%;
-
+  width: 75vmin;
+  height: 75vmin;
+  background-color: #fff;
+  border-radius: 5%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5%;
 }
 
 #game-over-text {
-    display: flex;
-    justify-content: center;
-    align-items: end;
-    flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  flex: 1;
 }
 
 #game-over-buttons {
-    display: flex;
-    justify-content: center;
-    align-items: start;
-    width: 100%;
-    gap: 5%;
-    flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  width: 100%;
+  gap: 5%;
+  flex: 1;
 }
 
 #go-back,
 #rematch {
-    display: inline-block;
+  display: inline-block;
 }
 
 .draw-text {
-    color: var(--border-color);
+  color: var(--border-color);
 }
 
 .iks-text {
-    color: var(--iks-color);
-
+  color: var(--iks-color);
 }
 
 .oks-text {
-    color: var(--oks-color);
+  color: var(--oks-color);
 }
 
 p {
-    margin: 0;
+  margin: 0;
 }
 
-#gameURL{
-    position: fixed;
-    top: calc(var(--board-margin) / 2);
-    left: calc(var(--board-margin) / 2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: calc(var(--board-margin) / 2);
+#gameURL {
+  position: fixed;
+  height: 5%;
+  top: 1%;
+  left: 1%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3vh;
 }
-#qr-code{
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background-color: #80808080;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+#gameURL * {
+  height: 100%;
 }
-@media screen and (orientation:landscape) {
-    #board{
-        max-height: 90%;
-    }
-    body.offline #board{
-        max-height: unset;
-        height: clamp(1rem,90%,100% - 4.1rem);
-    }
+#qr-code {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #80808080;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-@media screen and (orientation:portrait) {
-    #board{
-        max-width: 90%;
+@media screen and (orientation: landscape) {
+  @supports (aspect-ratio: 1) {
+    #board {
+      width: unset;
+      height: 90%;
     }
+    body.offline div#board {
+      width: unset;
+      height: clamp(1rem, 90%, 100% - 4.1rem);
+    }
+  }
+  body.offline #board {
+    width: clamp(1rem, 90vh, 100vh - 4.1rem);
+    height: clamp(1rem, 90vh, 100vh - 4.1rem);
+  }
+}
+@media screen and (orientation: portrait) {
+  @supports (aspect-ratio: 1) {
+    #board {
+      width: 90%;
+      height: unset;
+    }
+  }
 }
